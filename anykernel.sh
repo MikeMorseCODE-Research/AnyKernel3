@@ -15,18 +15,11 @@ device.name5=A059P
 supported.versions=
 supported.patchlevels=
 '; }
-BLOCK=/dev/block/bootdevice/by-name/boot;
-IS_SLOT_DEVICE=1;
-RAMDISK_COMPRESSION=auto;
-PATCH_VBMETA_FLAG=0;
+block=/dev/block/bootdevice/by-name/boot;
+is_slot_device=1;
+ramdisk_compression=auto;
+patch_vbmeta_flag=0;
 
-# update-binary runs `ash anykernel.sh` as a standalone script — it does
-# NOT auto-invoke the boot patch based on the properties block alone.
-# NOTE: dump_boot/write_boot are NOT used here — both unconditionally
-# call unpack_ramdisk/repack_ramdisk, which hard-abort with "No ramdisk
-# found to unpack" on this device, since boot's RAMDISK_SZ is genuinely 0.
-# split_boot + flash_boot is the correct minimal idiom for a kernel-only
-# replace with no ramdisk/dtb changes.
 . tools/ak3-core.sh;
 split_boot;
 flash_boot;
